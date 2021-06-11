@@ -85,11 +85,30 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+bool distinct(ll yr){
+	mii map;
+	while(yr){
+		ll num = yr%10;
+		if(map.find(num)!=map.end()) return false;
+		map[num]++;
+		yr = yr/10;
+	}
+	return true;
+}
+
+
 int main()
 {
     init_code();
     
-    
+    ll yr;
+    cin>>yr;
+    while(true){
+    	yr++;
+    	bool check = distinct(yr);
+    	if(check) break;
+    }
+    cout<<yr;
     
     return 0;
 }
