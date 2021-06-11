@@ -89,16 +89,16 @@ int main()
 {
     init_code();
     
-    ll tc;
-    cin>>tc;
-    ll sx=0,sy=0,sz=0;
-    while(tc--){
-    	ll x,y,z;
-        cin>>x>>y>>z;
-        sx+=x,sy+=y,sz+=z;
+    ll x=-1,y=-1;
+    for(ll i=0;i<5;i++){
+    	for(ll j=0;j<5;j++){
+    		int t;
+    		cin>>t;
+    		if(t==1) x=i,y=j;
+    	}
     }
-    if(sx==0&&sy==0&&sz==0) cout<<"YES";
-    else cout<<"NO";
+    x++,y++;
+    cout<<abs(3-x)+abs(3-y);
     
     return 0;
 }

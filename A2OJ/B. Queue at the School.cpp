@@ -89,16 +89,22 @@ int main()
 {
     init_code();
     
-    ll tc;
-    cin>>tc;
-    ll sx=0,sy=0,sz=0;
-    while(tc--){
-    	ll x,y,z;
-        cin>>x>>y>>z;
-        sx+=x,sy+=y,sz+=z;
+    ll len,t;
+    cin>>len>>t;
+    string s;
+    cin>>s;
+    while(t--){
+    	
+    	for(int i=0;i<s.length()-1;i++){
+    		if(s[i]=='B'&&s[i+1]=='G'){
+    			swap(s[i],s[i+1]);
+    			i++;
+    		} 
+    		
+    	}
+    	
     }
-    if(sx==0&&sy==0&&sz==0) cout<<"YES";
-    else cout<<"NO";
+    cout<<s;
     
     return 0;
 }
