@@ -88,23 +88,29 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 int main()
 {
     init_code();
-      
-    ll len,t;
-    cin>>len>>t;
+    
     string s;
     cin>>s;
-    while(t--){
-    	
-    	for(int i=0;i<s.length()-1;i++){
-    		if(s[i]=='B'&&s[i+1]=='G'){
-    			swap(s[i],s[i+1]);
-    			i++;
-    		} 
-    		
+    string res ="";
+    for(int i=0;i<s.length();i++){
+    	if(s[i]=='.'){
+    		res += '0';
+    		continue;
+    	} 
+    	if(s[i]=='-'){
+    		if(s[i+1]=='.'){
+	    		res += '1';
+	    		i++;
+	    		continue;
+	    	} 
+	    	if(s[i+1]=='-'){
+	    		res += '2';
+	    		i++;
+	    		continue;
+	    	} 
     	}
-    	
     }
-    cout<<s;
+    cout<<res;
     
     return 0;
 }
