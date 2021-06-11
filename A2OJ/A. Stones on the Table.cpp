@@ -89,10 +89,18 @@ int main()
 {
     init_code();
     
+    int t;
+    cin>>t;
     string s;
     cin>>s;
-	s[0]=toupper(s[0]);
-    cout<<s;
+    int sol=0;
+    int j=0;
+    for(int i=1;i<s.length();i++){
+    	if(s[i]!=s[j]){
+    		j=i;
+    	}else sol++;
+    }
+    cout<<sol;
     
     return 0;
 }

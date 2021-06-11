@@ -91,8 +91,12 @@ int main()
     
     string s;
     cin>>s;
-	s[0]=toupper(s[0]);
-    cout<<s;
+    int num=0;
+	for(auto a:s){
+		if(a=='4'||a=='7')num++;
+	}
+	if(num==4||num==7) cout<<"YES"<<nline;
+	else cout<<"NO"<<nline;
     
     return 0;
 }
