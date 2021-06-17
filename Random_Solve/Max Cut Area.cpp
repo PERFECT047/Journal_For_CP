@@ -116,7 +116,7 @@ int main()
     for (int i = 0; i < (int)vcp.size() - 1; ++i)
         mvca = max(mvca, vcp[i + 1] - vcp[i]);
                 
-    cout<<mhca * mvca;
+    cout<<(mhca * mvca)%1000000007;
     
     return 0;
 }
