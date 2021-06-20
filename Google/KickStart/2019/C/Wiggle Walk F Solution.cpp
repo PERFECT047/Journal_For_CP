@@ -97,10 +97,9 @@ int main()
     	cin>>n>>r>>c>>sr>>sc;
     	map<pair<int,int>,bool> m;
     	m[mp(sr,sc)]=1;;
-    	char a;
-    	int temp=n;
-    	while(n--){
-    		cin>>a;
+    	string s;
+    	cin>>s;
+    	for(auto a:s){
     		if(a=='E'){
     			sc++;
 			 	while(m.find(mp(sr,sc))!=m.end())sc++;
