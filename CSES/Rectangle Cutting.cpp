@@ -85,50 +85,29 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
-bool func(pii a, pii b){
-	return (a.ss/a.ff)>(b.ss/b.ff);
-}
-
-
 void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll n,m;
-		cin>>n>>m;
+		ll a,b;
+		cin>>a>>b;
+		if(a>b) swap(a,b);
 		
-		ll v[n+1];
+		int dp[a+1][b+1];
+		memset(dp, 0, sizeof dp);
 		
-		for(int i = 1;i <= n; i++) cin>>v[i];
+		for(int i = 1; i <= a; i++){
+			for(int j = i+1; j <= b; j++){
+				int sol = 1e6;
+				for(int x = j-1; x <= i; x--){
+					sol = min(sol, dp[i][x] + (j-x>i ? dp[i][j-x] : dp[j-x][i]) + 1);
+				}
+				dp[i][j] = sol;
+				// dp[i][j] = (j-i>i ? dp[i][j-i] : dp[j-i][i]) + 1;
+			}
+		}
 		
-		int dp[n+2][m+2];
-	    memset(dp, 0, sizeof dp);
-	 
-	    for(int i = 1; i <= n; i++)
-	    {
-	        for(int x = 1; x <= m; x++)
-	        {
-	            if(i == 1)
-	            {
-	                if(v[i] == 0 || v[i] == x)
-	                    dp[i][x] = 1;
-	                else dp[i][x] = 0;
-	            }
-	            else
-	            {
-	                if(v[i] == 0 || v[i] == x){
-	                    dp[i][x] = ((dp[i-1][x-1] + dp[i-1][x])%MOD + dp[i-1][x+1])%MOD;
-	                }
-	                else dp[i][x] = 0;
-	            }
-	        }
-	    }
-	 
-	    int ans = 0;
-	    
-	    for(int x = 1; x <= m; x++)  ans = (ans + dp[n][x]) % MOD;
-		
-		cout<<ans;
+		cout<<dp[a][b];
 		
 	}
 	

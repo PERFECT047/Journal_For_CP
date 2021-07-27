@@ -94,41 +94,32 @@ void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll n,m;
-		cin>>n>>m;
+		string s1,s2;
+		cin>>s1>>s2;
+		int dp[s1.length()+1][s2.length()+1] = {0};
+				
+		dp[0][0] = 0;
 		
-		ll v[n+1];
+		for(int i = 1; i <= s1.length(); i++){
+			dp[i][0] = i;
+		} 
 		
-		for(int i = 1;i <= n; i++) cin>>v[i];
+		for(int i = 1; i <= s2.length(); i++){
+			dp[0][i] = i;
+		} 
 		
-		int dp[n+2][m+2];
-	    memset(dp, 0, sizeof dp);
-	 
-	    for(int i = 1; i <= n; i++)
-	    {
-	        for(int x = 1; x <= m; x++)
-	        {
-	            if(i == 1)
-	            {
-	                if(v[i] == 0 || v[i] == x)
-	                    dp[i][x] = 1;
-	                else dp[i][x] = 0;
-	            }
-	            else
-	            {
-	                if(v[i] == 0 || v[i] == x){
-	                    dp[i][x] = ((dp[i-1][x-1] + dp[i-1][x])%MOD + dp[i-1][x+1])%MOD;
-	                }
-	                else dp[i][x] = 0;
-	            }
-	        }
-	    }
-	 
-	    int ans = 0;
-	    
-	    for(int x = 1; x <= m; x++)  ans = (ans + dp[n][x]) % MOD;
+		for(int i = 1; i <= s1.length(); i++){
+			for(int j = 1; j <= s2.length(); j++){
+				if(s1[i-1]==s2[j-1]){
+					dp[i][j] = dp[i-1][j-1];
+				}
+				else{
+					dp[i][j] = min(min(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1]) + 1;
+				}
+			}
+		}
 		
-		cout<<ans;
+		cout<<dp[s1.length()][s2.length()];
 		
 	}
 	
