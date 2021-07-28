@@ -1,3 +1,11 @@
+/* Use the slash-star style comments or the system won't see your
+   identification information */
+/*
+ID: siddhar99
+TASK: gift1
+LANG: C++                 
+*/
+/* LANG can be C++11 or C++14 for those more recent releases */
 #include<bits/stdc++.h>
  
 using namespace std;
@@ -56,11 +64,6 @@ typedef vector<string>::iterator vsit;
  
 void init_code(){
     fastio();
-    #ifndef ONLINE_JUDGE
-    #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
-    #else
-    #define debug(x)
-    #endif 
 }
  
  
@@ -83,57 +86,15 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-set<pair<ll,ll>> row[100010];
-set<pair<ll,ll>> col[100010];
-ll t=1;
-
-
-void freeze(ll x,ll y){
-	
-	//erase y form row[x]
-	
-	
-	
-	//erase x from col[y]
-	
-}
-
-
-void move(ll& x,ll& y,char m){
-	
-	//select the direction and tendecy of shortest unfreezed block
-	
-}
-
-
-void solve(){
-	
-	//taking input and call appropriate func
-	ll r,c,sr,sc,n;
-	cin>>n>>r>>c>>sr>>sc;
-	string s;
-	cin>>s;
-	for(auto a:s){
-		freeze(sr,sc);
-		move(&sr,&sc,a);
-	}
-	cout<<"Case #"<<t<<": "<<sr<<sc;
-	t++;
-	
-}
  
  
 int main()
 {
     init_code();
     
-    ll tc;
-    cin>>tc;
-    while(tc--){
-    	solve();
-    }
+    // ofstream fout ("gift1.out");
+    // ifstream fin ("gift1.in");
+    
     
     return 0;
 }

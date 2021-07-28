@@ -4,7 +4,7 @@ using namespace std;
  
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
-#pragma GCC optimization ("unroll-loops")
+// #pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -85,42 +85,19 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
-set<pair<ll,ll>> row[100010];
-set<pair<ll,ll>> col[100010];
-ll t=1;
-
-
-void freeze(ll x,ll y){
+void solve(ll tc = 1){
 	
-	//erase y form row[x]
-	
-	
-	
-	//erase x from col[y]
-	
-}
-
-
-void move(ll& x,ll& y,char m){
-	
-	//select the direction and tendecy of shortest unfreezed block
-	
-}
-
-
-void solve(){
-	
-	//taking input and call appropriate func
-	ll r,c,sr,sc,n;
-	cin>>n>>r>>c>>sr>>sc;
-	string s;
-	cin>>s;
-	for(auto a:s){
-		freeze(sr,sc);
-		move(&sr,&sc,a);
+	while(tc--){
+				
+		int n; long double c,a,b,r=0,p1=0,p2=5000;
+		cin>>n; while(n--) {cin>>c; r=max(r,c);}
+		cin>>n; while(n--) {cin>>c; p1=max(p1,c);}
+		cin>>n; while(n--) {cin>>c; p2=min(p2,c);}
+		cin>>a>>b;
+		c=a*p2;c/=b*p1;c+=1;c=r/sqrt(c);
+		cout<<fixed<<setprecision(9)<<c;
+		
 	}
-	cout<<"Case #"<<t<<": "<<sr<<sc;
-	t++;
 	
 }
  
@@ -130,10 +107,11 @@ int main()
     init_code();
     
     ll tc;
-    cin>>tc;
-    while(tc--){
-    	solve();
-    }
+    // cin>>tc;
+    tc=1;
+    solve(tc);
     
     return 0;
 }
+
+
