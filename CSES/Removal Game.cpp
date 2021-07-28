@@ -83,37 +83,34 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
+
+
 void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll a,b;
-		cin>>a>>b;
+		ll n;
+		cin>>n;
 		
-		vector<vi> dp(a+1,vi(b+1,0));
+		ll arr[n];
 		
-		for(int i = 1; i <= a; i++){
-			for(int j = 1; j <= b; j++){
+		for(int i=0; i<n;i++) cin>>arr[i];
+		
+		ll dp[n][n];
+		memset(dp, 0, sizeof dp);
+		
+		for(int l=1;l<=n;l++){
+			for(int i=0;i+l<=n;i++){
+				int j=i+l-1;
+				ll x = i+2<=j ? dp[i+2][j]:0;
+				ll y = i+1<=j-1 ? dp[i+1][j-1]:0;
+				ll z = i<=j-2 ? dp[i][j-2]:0;
 				
-				if(i == j) dp[i][j] = 0;
-				//Vertical Cuts
-				else{
-    				int sol = 1e5;
-    				for(int x = 1; x <= i-1; x++){
-    					sol = min(sol, dp[x][j]+dp[i-x][j]+1);
-    				}
-    				//Horizontal Cuts
-    				for(int x = 1; x <= j-1; x++){
-    					sol = min(sol, dp[i][x]+dp[i][j-x]+1);
-    				}
-    				dp[i][j] = sol;
-				}
+				dp[i][j] = max(arr[i]+min(x,y),arr[j]+min(y,z));
 			}
 		}
 		
-		cout<<dp[a][b];
+		cout<<dp[0][n-1];
 		
 	}
 	

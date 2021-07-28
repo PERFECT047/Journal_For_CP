@@ -83,37 +83,35 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
+
+
 void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll a,b;
-		cin>>a>>b;
+		ll n;
+		cin>>n;
 		
-		vector<vi> dp(a+1,vi(b+1,0));
+		ll sumf = ((n*(n+1))/2);
+		ll sum = sumf / 2;
 		
-		for(int i = 1; i <= a; i++){
-			for(int j = 1; j <= b; j++){
-				
-				if(i == j) dp[i][j] = 0;
-				//Vertical Cuts
-				else{
-    				int sol = 1e5;
-    				for(int x = 1; x <= i-1; x++){
-    					sol = min(sol, dp[x][j]+dp[i-x][j]+1);
-    				}
-    				//Horizontal Cuts
-    				for(int x = 1; x <= j-1; x++){
-    					sol = min(sol, dp[i][x]+dp[i][j-x]+1);
-    				}
-    				dp[i][j] = sol;
-				}
+		ll dp[sum+2][n+2];
+		memset(dp, 0, sizeof dp);
+		
+		dp[0][0] = 1;
+		
+		for(int i = 1; i <= sum; i++){
+			for(int j = 1; j <= n; j++){
+				ll x = 0;
+				if(i>=j){
+					x = dp[i-j][j-1];
+				} 
+				dp[i][j] = (dp[i][j-1] + x)%MOD;
 			}
 		}
 		
-		cout<<dp[a][b];
+		if(sumf%2==0)cout<<dp[sum][n];
+		else cout<<"0";
 		
 	}
 	
