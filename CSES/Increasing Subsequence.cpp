@@ -4,7 +4,7 @@ using namespace std;
  
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
-// #pragma GCC optimization ("unroll-loops")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -89,25 +89,21 @@ void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll a,b;
-		cin>>a>>b;
-		if(a>b) swap(a,b);
+		  int n;
+		  cin>>n;
+		  
+		  vi dp;
+		  
+		  for(int i=0;i<n;i++){
+		  	int x;
+		  	cin>>x;
+		  	auto it = lower_bound(all(dp),x);
+		  	
+		  	if(it == dp.end()) dp.pb(x);
+		  	else *it = x;
+		  }
 		
-		int dp[a+1][b+1];
-		memset(dp, 0, sizeof dp);
-		
-		for(int i = 1; i <= a; i++){
-			for(int j = i+1; j <= b; j++){
-				int sol = 1e6;
-				for(int x = j-1; x <= i; x--){
-					sol = min(sol, dp[i][x] + (j-x>i ? dp[i][j-x] : dp[j-x][i]) + 1);
-				}
-				dp[i][j] = sol;
-				// dp[i][j] = (j-i>i ? dp[i][j-i] : dp[j-i][i]) + 1;
-			}
-		}
-		
-		cout<<dp[a][b];
+		cout<<dp.size();
 		
 	}
 	
@@ -124,3 +120,5 @@ int main()
     
     return 0;
 }
+
+

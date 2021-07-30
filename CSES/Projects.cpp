@@ -4,7 +4,7 @@ using namespace std;
  
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
-// #pragma GCC optimization ("unroll-loops")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -85,29 +85,64 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+struct jobs{
+	ll s, e, p;
+};
+
+
+int bs(jobs* arr, int id){
+	
+	int lo = 0;
+	int hi = id-1;
+	
+	while(lo<=hi){
+		int mid = lo + ((hi-lo)/2);
+		if(arr[id].s>arr[mid].e){
+			if(arr[mid+1].e<arr[id].s) lo = mid+1;
+			else return mid;
+		}
+		else{
+			hi = mid-1;
+		}
+	}
+	
+	return -1;
+	
+}
+
+
+bool cmp(jobs a, jobs b){
+	return (a.e < b.e);
+}
+
+
 void solve(ll tc = 1){
 	
 	while(tc--){
 				
-		ll a,b;
-		cin>>a>>b;
-		if(a>b) swap(a,b);
-		
-		int dp[a+1][b+1];
-		memset(dp, 0, sizeof dp);
-		
-		for(int i = 1; i <= a; i++){
-			for(int j = i+1; j <= b; j++){
-				int sol = 1e6;
-				for(int x = j-1; x <= i; x--){
-					sol = min(sol, dp[i][x] + (j-x>i ? dp[i][j-x] : dp[j-x][i]) + 1);
-				}
-				dp[i][j] = sol;
-				// dp[i][j] = (j-i>i ? dp[i][j-i] : dp[j-i][i]) + 1;
-			}
-		}
-		
-		cout<<dp[a][b];
+		  int n;
+		  cin>>n;
+		  
+		  jobs arr[n];
+		  
+		  for(int i=0;i<n;i++) cin>>arr[i].s>>arr[i].e>>arr[i].p;
+		  
+		  ll dp[n] = {0};
+		  
+		  sort(arr,arr+n,cmp);
+		  
+		  dp[0] = arr[0].p;
+		  
+		  for(int i=1; i<n; i++){
+		  	ll inc = arr[i].p;
+		  	int fbinc = bs(arr,i);
+		  	if(fbinc!=-1) inc += dp[fbinc];
+		  	ll excl = dp[i-1];
+		  	
+		  	dp[i] = max(inc,excl);
+		  }
+		  
+		  cout<<dp[n-1];
 		
 	}
 	
@@ -124,3 +159,5 @@ int main()
     
     return 0;
 }
+
+
