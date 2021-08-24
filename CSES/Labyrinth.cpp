@@ -85,56 +85,51 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
-vll edges[150005];
-ll label[150005]; // cuur comp of each node
-ll sz[150005]; //size of each comp
-ll nedges[150005]; // num of edges in each comp
+ll n, m, sti, stj, edi, edj;
 
 
-void relabel(ll u, ll target){// relable node and it's companion to target
+ll rooms(vector<vll> &arr, ll i, ll j){
+	if(i > n || i < 1) return 0;
+	if(j > m || j < 1) return 0;
+	if(arr[i][j] == -1) return 0;
+	if(i == edi && j == edj) return 1;
 	
-	if(label[u] == target) return;
+	ll sol = 0;
 	
-	label[u] = target;
+	sol += rooms(arr, i + 1, j);
+	if(sol > 0) return 1;
+	sol += rooms(arr, i - 1, j);
+	if(sol > 0) return 1;
+	sol += rooms(arr, i, j + 1);
+	if(sol > 0) return 1;
+	sol += rooms(arr, i, j - 1);
+	if(sol > 0) return 1;
 	
-	for(ll x: edges[v]) relabel(x, target);
-	
-}
-
-
-void merge( ll u, ll v){
-	
-	edges[u].pb(v);
-	edges[v].pb(u);
-	
-	ll cu = label[u];
-	ll cv = label[v];
-	
-	if(sz[cu] > sz[cv]){ 
-		swap(u, v);
-		swap(cu, cv);
-	} //assuming sz[cu] <= sz[cv]
-	
-	relabel(u, cv);
-	
-	sz[cv] += sz[cu];
-	nedges[cv] += nedges[cu];
+	return sol;
 	
 }
 
 
 void solve() {
 	
-	ll n, m;
-	cin>> n >> m;
+	cin >> n >> m;
+	vector<vll> arr(n+2, vll(m+2, 0));
 	
-	for(ll i =0; i < m; i++){
-		ll u, v;
-		cin>> u >> v;
-		merge(u, v);
+	for(ll i = 1; i <= n; i++){
+		for(ll j = 1; j <= m; j++){
+			char ch;
+			cin >> ch;
+			if(ch == '#') arr[i][j] = -1;
+			if(ch == 'A') sti = i, stj = j;
+			if(ch == 'B') edi = i, edj = j;
+		}
 	}
 	
+	ll sol = 0;
 	
+	sol = rooms(arr, sti, stj);
+	
+	sol > 0 ? cout << "YES" : cout << "NO";
 	
 }
  
@@ -144,7 +139,7 @@ int main()
     init_code();
 
     ll tc = 1;
-    //cin>>tc;
+    // cin>>tc;
     while(tc--) solve();
     
     return 0;
