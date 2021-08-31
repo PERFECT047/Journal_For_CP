@@ -57,10 +57,10 @@ typedef vector<string>::iterator vsit;
 void init_code(){
     fastio();
     #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    freopen("error.txt", "w", stderr);
-	#endif
+    #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
+    #else
+    #define debug(x)
+    #endif 
 }
  
  
@@ -83,43 +83,23 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
  
-vll v(1e6+1);
-
-
-void solve(ll tc = 1){
-	
-	v[0]=1;
-	v[1]=1;
-	v[2]=2;
-	v[3]=4;
-	v[4]=8;
-	v[5]=16;
-	v[6]=32;
-	for(int i=7;i<=1e6;i++){
-		for(int j=i-6;j<i;j++) v[i]+=v[j];
-		v[i] = v[i]%MOD;
-	}
-	while(tc--){
-				
-		// 1 2 3 steps at a time 
-		ll n;
-		cin>>n;
-		cout<<v[n]<<nline;
-		
-	}
-}
+ 
+ void sol(){
+ 	
+ 	
+ 	
+ }
  
  
 int main()
 {
     init_code();
     
-    ll tc;
-    tc=1;
-    // cin>>tc;
-    while(tc--) solve();
+    ll tc = 1;
+    // cin >> tc;
+    
+    while(tc--) sol();
     
     return 0;
 }

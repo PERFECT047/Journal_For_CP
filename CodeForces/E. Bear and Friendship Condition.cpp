@@ -97,7 +97,7 @@ void relabel(ll u, ll target){// relable node and it's companion to target
 	
 	label[u] = target;
 	
-	for(ll x: edges[v]) relabel(x, target);
+	for(ll x: edges[u]) relabel(x, target);
 	
 }
 
@@ -109,6 +109,9 @@ void merge( ll u, ll v){
 	
 	ll cu = label[u];
 	ll cv = label[v];
+	++nedges[cu];
+	
+	if(cu == cv) return;
 	
 	if(sz[cu] > sz[cv]){ 
 		swap(u, v);
@@ -128,13 +131,22 @@ void solve() {
 	ll n, m;
 	cin>> n >> m;
 	
+	for(ll i = 0; i <= n; i++) sz[i] = 1, label[i] = i;
+	
 	for(ll i =0; i < m; i++){
 		ll u, v;
 		cin>> u >> v;
 		merge(u, v);
 	}
 	
+	bool poss = 1;
+	for(ll i = 0; i < n; i++){
+		if(nedges[label[i]] != sz[label[i]] * (sz[label[i]] - 1) / 2){
+			poss = 0;
+		}
+	}
 	
+	cout << (poss ? "YES\n" : "NO\n");
 	
 }
  
