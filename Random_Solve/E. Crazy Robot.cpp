@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimization ("unroll-loops")
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
+
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -85,36 +83,60 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve() {
-	
-	int n;
-	
-	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
-	}
-	
-	cout << r << endl;
-	
-}
+  
  
+    	
+int di[] = {0,0,1,-1};
+int dj[] = {1,-1,0,0};
+
  
 int main()
 {
     init_code();
-
+    
     ll tc = 1;
     
     cin >> tc;
-	
-    while(tc--) solve();
+    
+    while(tc--){
+			
+		int n,m;
+		cin>>n>>m;
+		vector<string> s(n);
+		queue<pll> q;
+		for(int i=0;i<n;i++){
+			cin>>s[i];
+			for(int j=0;j<m;j++){
+				if(s[i][j]=='L') q.push({i,j});
+			}
+		}
+		while(!q.empty()){
+			pll p=q.front();
+			q.pop();
+			for(int i=0;i<4;i++){
+				int i1=p.ff+di[i],j1=p.ss+dj[i];
+				if(i1<0 || i1>=n || j1<0 || j1>=m || s[i1][j1]=='L' || s[i1][j1]=='#' || s[i1][j1]=='+'){
+					continue;
+				}
+				bool can=0;
+				int cnt=0;
+				for(int j=0;j<4;j++){
+					int i2=i1+di[j],j2=j1+dj[j];
+					if(i2<0 || i2>=n || j2<0 || j2>=m || s[i2][j2]=='#') continue;
+					if(s[i2][j2]=='L' || s[i2][j2]=='+') can=1;
+					else cnt++;
+				}
+				if(can && cnt<=1){
+					s[i1][j1]='+';
+					q.push({i1,j1});
+				}
+			}
+		}
+		for(int i=0;i<n;i++){
+			cout<<s[i]<<endl;
+		}
+	    	
+	}
     
     return 0;
 }

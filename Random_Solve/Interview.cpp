@@ -21,12 +21,10 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
-typedef long long ll;
 typedef unsigned long long ull;
+typedef long long int ll;
 typedef long double lld;
 typedef stringstream ss;
 typedef map<int, int> mii;
@@ -86,35 +84,84 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
+ 
+int sol(){
+	
+	vll a = {0, 1, 1, 3, 0};
+    vll b = {1, 2, 3, 4, 5};
+    vll h = {2, 4};
+    ll n = 6;
+    // (6, [0, 1, 1, 3, 0], [1, 2, 3, 4, 5], [2, 4])
 
-void solve() {
+	vector<vll> gr(n+1);
 	
-	int n;
-	
-	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	for(auto x: h){
+		gr[0].pb(x + 1);
+		cout << x << " ";
 	}
 	
-	cout << r << endl;
+	for(ll i = 0; i < (ll)a.size(); i++){
+		if(a[i] == b[i]) continue;
+		gr[a[i] + 1].pb(b[i] + 1);
+		gr[b[i] + 1].pb(a[i] + 1);
+	}
+	
+	bool vis[n + 1] = {0};
+	
+	ll label[n+1];
+	
+	for(ll i =0; i <= n; i++) label[i] = -1;
+	
+	stack<ll> s;
+	
+	for(auto x: h){
+		s.push(x+1);
+	}
+	ll lvl = 0;
+	
+	
+	while(!s.empty()){
+		
+		ll sz = s.size();
+		
+		for(ll i = 0 ; i < sz; i++){
+			ll ci = s.top();
+			s.pop();
+			if(vis[ci]) continue;
+			vis[ci] = 1;
+			label[ci] = lvl;
+			// cout << ci << " " << lvl << nline;
+			for(auto x: gr[ci]){ 
+				if(!vis[x]) {
+					s.push(x);
+				} 
+			}
+		}
+		lvl++;
+		
+	}
+	
+	for(ll i = 1; i <= n; i++){
+		cout<< i << " " << label[i] << nline;
+	}
+	
+	long long int md = 0;
+	
+	for(int i = 1; i <= n; i++){
+		if(label[i] == -1) return -1;
+		md = max(md, label[i]);
+	}
+	
+	return md;
 	
 }
  
  
 int main()
 {
-    init_code();
-
-    ll tc = 1;
+    // init_code();
     
-    cin >> tc;
-	
-    while(tc--) solve();
+    cout << sol();
     
     return 0;
 }

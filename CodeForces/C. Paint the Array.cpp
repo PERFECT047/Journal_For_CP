@@ -89,19 +89,58 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
+	ll n;
 	
 	cin >> n;
 	
-	int r = INT_MAX;
+	ll a[n + 10] = {0};
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	ff(i, 1, n + 1) cin >> a[i];
+	
+	ll og = a[1];
+	ll eg = a[2];
+	
+	ff(i, 3, n + 1){
+		if(i % 2 == 0) eg = __gcd(eg, a[i]);
+		else og = __gcd(og, a[i]);
 	}
 	
-	cout << r << endl;
+	if(eg == og){
+		cout << "0" << endl;
+		return;
+	}
+	else{
+		bool p = 1;
+		
+		ff(i, 1, n + 1){
+			if(i % 2 == 0){
+				if(a[i] % og == 0){
+					 p = 0;
+				}
+			}
+		}
+		if(p){
+			cout << og << endl;
+			return;
+		}
+		
+		p = 1;
+		
+		ff(i, 1, n + 1){
+			if(i % 2 != 0){
+				if(a[i] % eg == 0){
+					 p = 0;
+				}
+			}
+		}
+		if(p){
+			cout << eg << endl;
+			return;
+		}
+		
+	}
+	
+	cout << "0" << endl;
 	
 }
  

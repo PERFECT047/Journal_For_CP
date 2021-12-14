@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -87,21 +85,48 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
-void solve() {
+bool vis[100010] = {0};
+vll adj[100010];
+
+
+void dfs(ll i){
+	if(vis[i]) return;
+	vis[i] = 1;
+	for(auto x : adj[i]) dfs(x);
+}
+ 
+void sol(){
 	
-	int n;
+	ll n, m;
+	cin >> n >> m;
 	
-	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	for(ll i = 0; i < m; i++){
+		ll x, y;
+		cin >> x >> y;
+		adj[x].pb(y);
+		adj[y].pb(x);
 	}
 	
-	cout << r << endl;
+	dfs(1);
+	
+	ll cnt = 0;
+	vll v;
+	
+	for(ll i = 1; i <= n; i++){
+		if(!vis[i]){
+			dfs(i);
+			cnt++;
+			v.pb(i);
+		}
+	}
+	
+	cout << cnt << nline;
+	
+	for(auto x : v){
+		cout << 1 << " " << x << nline;
+	}
+	
+	return;
 	
 }
  
@@ -109,12 +134,11 @@ void solve() {
 int main()
 {
     init_code();
-
-    ll tc = 1;
     
-    cin >> tc;
-	
-    while(tc--) solve();
+    ll tc = 1;
+    // cin >> tc;
+    
+    while(tc--) sol();
     
     return 0;
 }

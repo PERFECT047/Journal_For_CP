@@ -89,19 +89,43 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
+	ll n, k;
 	
-	cin >> n;
+	cin >> n >> k;
 	
-	int r = INT_MAX;
+	vll arp, arn;
 	
 	ff(i, 0, n){
-		ll t;
+		ll t; 
 		cin >> t;
-		r = r & t;
+		
+		if(t > 0) arp.pb(t);
+		else arn.pb(-t);
 	}
 	
-	cout << r << endl;
+	sort(all(arp));
+	sort(all(arn));
+	
+	ll sol = 0;
+	ll ps = arp.size();
+	ll ns = arn.size();
+	
+	for(ll i = ps - 1; i >= 0; i -=k){
+		sol += (arp[i] * 2);
+	}
+	
+	for(ll i = ns - 1; i >= 0; i -=k){
+		sol += (arn[i] * 2);
+	}
+	
+	ll l = ps > 0 ? arp[ps - 1] : 0;
+	ll r = ns > 0 ? arn[ns - 1] : 0;
+	
+	ll s = max(l, r);
+	
+	sol -= s;
+	
+	cout << sol << endl;
 	
 }
  

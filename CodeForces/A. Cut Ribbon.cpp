@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -89,19 +87,29 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
+	ll n = 0;
+	ll v[4] = {0};
 	
 	cin >> n;
+	for(ll i = 0; i < 3; i++) cin >> v[i];
 	
-	int r = INT_MAX;
+	ll dp[n + 10][4] = {0};
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	for(ll i = 1; i <= n; i++){
+		for(ll j = 0; j < 3; j++){
+			if(i - v[j] >= 0){
+				ll in = max(dp[i - v[j]][0], max(dp[i - v[j]][1], dp[i - v[j]][2]));
+				if(in > 0) dp[i][j] = in + 1;
+				if(i - v[j] == 0) dp[i][j] = 1;
+			}
+		}
 	}
 	
-	cout << r << endl;
+	ll m = 0;
+	
+	for(ll i = 0; i < 3; i++) m = max(m, dp[n][i]);
+	
+	cout << m;	
 	
 }
  
@@ -111,8 +119,6 @@ int main()
     init_code();
 
     ll tc = 1;
-    
-    cin >> tc;
 	
     while(tc--) solve();
     

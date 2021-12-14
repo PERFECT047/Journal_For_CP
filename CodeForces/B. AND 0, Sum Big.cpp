@@ -89,19 +89,19 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
+	ll n, k;
 	
-	cin >> n;
+	cin >> n >> k;
 	
-	int r = INT_MAX;
+	ll res = n;
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	k--;
+	
+	while(k--){
+		res = (res * n) % MOD;
 	}
 	
-	cout << r << endl;
+	cout << res << endl;
 	
 }
  

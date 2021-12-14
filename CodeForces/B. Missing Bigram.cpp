@@ -89,20 +89,27 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
-	
+	ll n;
 	cin >> n;
+	string inp[n];
 	
-	int r = INT_MAX;
+	ff(i, 0, n - 2) cin >> inp[i];
+
+	string sol="";
+	sol += inp[0][0];
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	ff(i, 0, n - 3){
+		if(inp[i][1] != inp[i+1][0]){
+			sol += inp[i][1];
+		}
+		sol += inp[i+1][0];
 	}
-	
-	cout << r << endl;
-	
+	sol += inp[n-3][1];
+
+	if((ll)sol.length() != n){
+		sol += inp[n-3][1];
+	}
+	cout << sol << endl;	
 }
  
  

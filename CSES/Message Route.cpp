@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -86,22 +84,59 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
-void solve() {
+ 
+void sol(){
 	
-	int n;
+	ll n, m;
+	cin >> n >> m;
+	vector<vll> adj(n+1);
 	
-	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	for(ll i = 0; i < m; i++){
+		ll x, y;
+		cin >> x >> y;
+		adj[x].pb(y);
+		adj[y].pb(x);
 	}
 	
-	cout << r << endl;
+	vector<pll> s;
+ 	s.pb({1, 1});
+ 	bool vis[n + 10]= {0};
+ 	
+ 	ll id = 0;
+ 	
+ 	for(ll i = 0; i < (ll)s.size(); i++){
+ 		id = i;
+ 		if(s[i].ff == n) break;
+ 		else{
+ 			for(auto x : adj[s[i].ff]){
+ 				if(!vis[x]){ 
+		 			s.pb({x, s[i].ff});
+		 			vis[x] = 1;
+	 			}
+ 			}
+ 		}
+ 	}
+	
+ 	ll cid = s[id].ff;
+ 	vector<ll> v;
+ 	
+ 	if(cid == n){
+ 		
+ 		ll sid = s[id].ff;
+ 		
+ 		for(ll i = id; i >= 0; i--){
+ 			if(s[i].ff == sid){
+ 				v.pb(sid);
+ 				sid = s[i].ss;
+ 			}
+ 		}
+ 		
+ 		cout<< v.size() << nline;
+ 		for(ll i = v.size() - 1; i >= 0; i--) cout << v[i] << " ";
+ 	}
+	else{
+		cout << "IMPOSSIBLE" << nline;
+	}
 	
 }
  
@@ -109,12 +144,11 @@ void solve() {
 int main()
 {
     init_code();
-
-    ll tc = 1;
     
-    cin >> tc;
-	
-    while(tc--) solve();
+    ll tc = 1;
+    // cin >> tc;
+    
+    while(tc--) sol();
     
     return 0;
 }

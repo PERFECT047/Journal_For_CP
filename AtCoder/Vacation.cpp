@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimization ("unroll-loops")
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
+
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -85,35 +83,43 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve() {
-	
-	int n;
-	
+ 
+ 
+void solve(){
+			
+	ll n;
 	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	ll arr[n + 5][4] = {0};
+	for(ll i = 1; i <= n; i++){
+		for(ll j = 1; j <= 3; j ++) cin >> arr[i][j];
 	}
 	
-	cout << r << endl;
+	ll dp[n + 5][4] = {0};
 	
+	for(ll i = 1; i <= 3; i++) dp[1][i] = arr[1][i];
+	
+	for(ll i = 2; i <= n; i++){
+		for(ll j = 1; j <= 3; j++){
+			for( ll k = 1; k <= 3; k++){
+				if(j != k) dp[i][j] = max(dp[i][j], dp[i - 1][k] + arr[i][j]);
+			}
+		}
+	}
+	ll t = 0;
+	for(ll j = 1; j <= 3; j++){
+		t = max(t, dp[n][j]);
+	}
+	cout << t;
+			
 }
  
  
 int main()
 {
     init_code();
-
+    
     ll tc = 1;
     
-    cin >> tc;
-	
     while(tc--) solve();
     
     return 0;

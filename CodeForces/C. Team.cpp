@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimization ("unroll-loops")
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
+
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -85,23 +83,41 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve() {
+ 
+ 
+void solve(){
+			
+	ll n0, n1;
 	
-	int n;
+	cin >> n0 >> n1;
 	
-	cin >> n;
-	
-	int r = INT_MAX;
-	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	if(n0 > (n1 + 1)){
+		cout << "-1";
+		return;
 	}
 	
-	cout << r << endl;
+	if(n0 * 2 + 2 < n1){
+		cout << "-1";
+		return;
+	}
+	
+	ll o = 1, f = 0;
+	
+	while(n0 || n1){
+		if((n1 > n0 && f < 2) || o == 0){ 
+			if(n1 > 0)n1--; 
+			o = 1; 
+			f++;
+		}
+		
+		else{ 
+			if(n0 > 0) n0--; 
+			o = 0; 
+			f = 0;
+		}
+		
+		cout << o;
+	}
 	
 }
  
@@ -109,11 +125,9 @@ void solve() {
 int main()
 {
     init_code();
-
+    
     ll tc = 1;
     
-    cin >> tc;
-	
     while(tc--) solve();
     
     return 0;

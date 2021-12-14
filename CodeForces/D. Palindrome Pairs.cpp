@@ -89,19 +89,36 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-	int n;
+	ll n;
 	
 	cin >> n;
 	
-	int r = INT_MAX;
+	string s;
+	map<ll, ll> cnt;
+	ll sol = 0;
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	ff(i, 0, n){ 
+		cin >> s;
+		
+		ll mask = 0;
+		
+		for(auto a : s){
+			ll c = a - 'a';
+			mask ^= (1 << c);
+		}
+		
+		sol += cnt[mask];
+		
+		ff(j, 0, 26){
+			mask ^= (1 << j);
+			sol += cnt[mask];
+			
+			mask ^= (1 << j);
+		}
+		cnt[mask]++;
 	}
 	
-	cout << r << endl;
+	cout << sol << endl;	
 	
 }
  
@@ -112,7 +129,7 @@ int main()
 
     ll tc = 1;
     
-    cin >> tc;
+    // cin >> tc;
 	
     while(tc--) solve();
     

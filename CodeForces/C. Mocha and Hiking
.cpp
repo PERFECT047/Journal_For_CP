@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
-#pragma GCC optimization ("unroll-loops")
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
+
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,8 +21,6 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define ff(i,x,n) for(ll i=x;i<n;i++)
-#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -85,35 +83,70 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve() {
-	
-	int n;
+ 
+ 
+void solve(){
+			
+	ll n;
 	
 	cin >> n;
 	
-	int r = INT_MAX;
+	bool allout = 1, change = 1;
+	ll index = 0;
 	
-	ff(i, 0, n){
-		ll t;
-		cin >> t;
-		r = r & t;
+	ll edge[n + 1] = {0};
+	
+	for(ll i = 1; i <= n; i++){
+		cin >> edge[i];
+		if(edge[i] == 0 && change) allout = 0, index = i;
 	}
 	
-	cout << r << endl;
+	if(allout){
+		cout << n + 1 << " ";
+		for(ll i = 1; i <= n; i++) cout << i << " ";
+		cout << endl;
+		return;
+	}
 	
+	ll tendency = edge[1];
+	
+	for(ll i = 2; i <= n; i++){
+		if(edge[i] != tendency){
+			if(tendency == 0){
+				for(ll j = 1; j <= n; j ++){
+					if(j == i) cout << n + 1 << " "; 
+					cout << j << " ";
+				}
+				
+			}
+			else{
+				cout << n + 1 <<" ";
+
+				for(ll j = 1; j <= n; j++) cout << j << " ";
+			}
+			
+			cout << endl;
+			
+			return;
+		}
+	}
+	
+	for(ll i = 1; i <= n + 1; i++) cout << i << " ";
+	cout << endl;
+	
+	return;
+			
 }
  
  
 int main()
 {
     init_code();
-
+    
     ll tc = 1;
     
     cin >> tc;
-	
+    
     while(tc--) solve();
     
     return 0;
