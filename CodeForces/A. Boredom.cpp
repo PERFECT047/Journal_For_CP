@@ -88,23 +88,7 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
  
 void solve(){
 			
-	ll n;
 	
-	cin >> n;
-
-	ll arr[100010] = {0};
-	
-	for(ll i = 0; i < n; i++){
-		ll t;
-		cin >> t;
-		arr[t] += t;
-	}
-	
-	for(ll i = 2; i < 100010; i++){
-		arr[i] = max(arr[i - 1], arr[i] + arr[i - 2]);
-	}
-	
-	cout << arr[100009];
 	
 }
  

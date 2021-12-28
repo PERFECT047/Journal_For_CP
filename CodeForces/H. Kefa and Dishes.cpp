@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast,unroll-loops")
-#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
-
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,6 +21,8 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
+#define rep(i,x,n) for(ll i=x;i<n;i++)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -83,70 +85,77 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
-void solve(){
-			
-	ll n;
-	
-	cin >> n;
-	
-	bool allout = 1, change = 1;
-	ll index = 0;
-	
-	ll edge[n + 1] = {0};
-	
-	for(ll i = 1; i <= n; i++){
-		cin >> edge[i];
-		if(edge[i] == 0 && change) allout = 0, index = i;
-	}
-	
-	if(allout){
-		cout << n + 1 << " ";
-		for(ll i = 1; i <= n; i++) cout << i << " ";
-		cout << endl;
-		return;
-	}
-	
-	ll tendency = edge[1];
-	
-	for(ll i = 2; i <= n; i++){
-		if(edge[i] != tendency){
-			if(tendency == 0){
-				for(ll j = 1; j <= n; j ++){
-					if(j == i) cout << n + 1 << " "; 
-					cout << j << " ";
-				}
-				
-			}
-			else{
-				cout << n + 1 <<" ";
 
-				for(ll j = 1; j <= n; j++) cout << j << " ";
-			}
-			
-			cout << endl;
-			
-			return;
+
+ll dp[1 << 18][19];
+
+
+void solve() {
+	
+	ll n, m, k;
+	
+	cin >> n >> m >> k;
+	
+	ll combo[20][20] = {0}; // i before j
+	ll a[20] = {0};
+	
+	rep(i, 0, n) cin >> a[i];
+	
+	rep(i, 0, k){
+		ll x, y, c;
+		cin >> x >> y >> c;
+		
+		x--;
+		y--;
+		combo[x][y] = c;
+	}
+	
+	rep(i, 0, (1 << n)){
+		rep(j, 0, n){
+			dp[i][j] = -1e17;
 		}
 	}
 	
-	for(ll i = 1; i <= n + 1; i++) cout << i << " ";
-	cout << endl;
+	rep(i, 0, n) dp[(1 << i)][i] = a[i];
 	
-	return;
-			
+	rep(i, 1, (1 << n)){
+		rep(j, 0, n){
+			if((i >> j) & 1){
+				rep(k, 0, n){
+					if(!((i >> k) & 1)){
+						ll n_m = i | (1 << k);
+						ll nval = dp[i][j] + a[k] + combo[j][k];
+						
+						dp[n_m][k] = max(dp[n_m][k], nval);
+					}
+				}
+			}
+		}
+	}
+	
+	ll sol = -1e17;
+	
+	rep(i, 1, (1 << n)){
+		if(__builtin_popcount(i) == m){
+			rep(j, 0, n){
+				sol = max(sol, dp[i][j]);
+			}
+		}
+	}
+	
+	cout << sol << endl;
+	
 }
  
  
 int main()
 {
     init_code();
-    
+
     ll tc = 1;
     
-    cin >> tc;
-    
+    // cin >> tc;
+	
     while(tc--) solve();
     
     return 0;

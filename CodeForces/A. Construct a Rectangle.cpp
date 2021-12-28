@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast,unroll-loops")
-#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
-
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,6 +21,8 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
+#define rep(i,x,n) for(ll i=x;i<n;i++)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -56,7 +58,7 @@ typedef vector<string>::iterator vsit;
  
 void init_code(){
     fastio();
-    #ifndef ONLINE_JUDGE
+    #ifndef SID
     #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
     #else
     #define debug(x)
@@ -83,66 +85,51 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
-void solve(){
-			
-	ll n;
-	
-	cin >> n;
-	
-	bool allout = 1, change = 1;
-	ll index = 0;
-	
-	ll edge[n + 1] = {0};
-	
-	for(ll i = 1; i <= n; i++){
-		cin >> edge[i];
-		if(edge[i] == 0 && change) allout = 0, index = i;
-	}
-	
-	if(allout){
-		cout << n + 1 << " ";
-		for(ll i = 1; i <= n; i++) cout << i << " ";
-		cout << endl;
-		return;
-	}
-	
-	ll tendency = edge[1];
-	
-	for(ll i = 2; i <= n; i++){
-		if(edge[i] != tendency){
-			if(tendency == 0){
-				for(ll j = 1; j <= n; j ++){
-					if(j == i) cout << n + 1 << " "; 
-					cout << j << " ";
-				}
-				
-			}
-			else{
-				cout << n + 1 <<" ";
 
-				for(ll j = 1; j <= n; j++) cout << j << " ";
-			}
-			
-			cout << endl;
-			
-			return;
-		}
+
+void solve() {
+
+	ll arr[3] = {0};
+
+	rep(i, 0, 3) cin >> arr[i];
+
+	sort(arr, arr + 3);
+	bool eq = 0;
+	ll id = 0;
+
+	rep(i, 0, 2){
+		if(arr[i] == arr[i + 1]){ 
+			eq = 1; 
+			id = i;
+			break;
+		}	
 	}
-	
-	for(ll i = 1; i <= n + 1; i++) cout << i << " ";
-	cout << endl;
-	
+
+	if(eq){
+		id += 2;
+		id = id % 3;
+		if(arr[id] % 2 != 0) eq = 0;
+
+	}
+	debug(arr[id]);
+
+	if(arr[2] == (arr[0] + arr[1]) || eq){
+		cout << "YES" << endl;
+		return;
+	}	
+
+
+
+	cout << "NO" << endl;
 	return;
-			
+
 }
  
  
 int main()
 {
     init_code();
-    
+
     ll tc = 1;
     
     cin >> tc;
