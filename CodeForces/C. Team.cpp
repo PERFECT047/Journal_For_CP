@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast,unroll-loops")
-#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
-
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,6 +21,8 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
+#define rep(i,x,n) for(ll i=x;i<n;i++)
+#define repb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -42,7 +44,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pii> vpii;
+typedef vector<pll> vpll;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -83,41 +85,44 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
-void solve(){
-			
-	ll n0, n1;
+
+
+void solve() {
 	
-	cin >> n0 >> n1;
-	
-	if(n0 > (n1 + 1)){
-		cout << "-1";
-		return;
-	}
-	
-	if(n0 * 2 + 2 < n1){
-		cout << "-1";
-		return;
-	}
-	
-	ll o = 1, f = 0;
-	
-	while(n0 || n1){
-		if((n1 > n0 && f < 2) || o == 0){ 
-			if(n1 > 0)n1--; 
-			o = 1; 
-			f++;
-		}
-		
-		else{ 
-			if(n0 > 0) n0--; 
-			o = 0; 
-			f = 0;
-		}
-		
-		cout << o;
-	}
+    ll n, m;
+    cin >> m >> n;
+    
+    if(m > n + 1){
+    	cout << "-1" ;
+    	return;
+    }
+    if(n > 2 && m < ((n + 1) / 2) - 1){
+    	cout << "-1";
+    	return;
+    }
+    
+    bool poss = 0;
+    
+    while(m < n && n > 0 && m > 0){
+    	cout << "110";
+    	m--;
+    	n -= 2;
+    	poss = 1;
+    }
+    
+    if(m >= n){
+    	
+    	while(n + m != 0){
+    		
+    		if(!poss)cout << "0", m--;
+    		else cout << "1", n--;
+    		
+    		poss = !poss;
+    	}
+    }
+    
+    while(n) cout << "1", n--;
+    
 	
 }
  
@@ -125,9 +130,11 @@ void solve(){
 int main()
 {
     init_code();
-    
+
     ll tc = 1;
     
+    // cin >> tc;
+	
     while(tc--) solve();
     
     return 0;

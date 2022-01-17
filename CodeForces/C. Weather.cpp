@@ -87,28 +87,31 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+int n;
+int a[100005];
+int neg[100005], pos[100005];
+
+
 void solve() {
 	
-    ll n;
-    cin >> n;
+	ifstream ifs("input.txt");
+	ofstream ofs("output.txt");
+ 
+	ifs >> n;
+	for (int i=1; i<=n; i++) {
+		ifs >> a[i];
+		pos[i] = pos[i-1] + (a[i] >= 0);
+	}
+	int sol = n+1;
+	for (int i=n; i>=1; i--) {
+		neg[i] = neg[i+1] + (a[i] <= 0);
+		if (i < n) {
+			sol = min(sol, pos[i] + neg[i+1]);
+		}
+	}
+	ofs << sol << '\n';
     
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
-	
+    return;
 }
  
  

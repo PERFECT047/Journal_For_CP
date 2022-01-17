@@ -8,7 +8,7 @@ using namespace std;
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
-#define MOD 1000000007
+4#define MOD 1000000007
 #define MOD1 998244353
 #define INF 1e18
 #define nline "\n"
@@ -89,25 +89,13 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
+    ll a, b, c;
+    cin >> a >> b >> c;
     
-    ll a[n] = {0};
+    ll s = __gcd(a, b);
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
+    if(max(c, s) % min(c, s) == 0) cout << "Yes" << endl;
+    else cout << "No" << endl;
 	
 }
  
@@ -118,9 +106,15 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
+    cin >> tc;
+    
+    ll c = 1;
 	
-    while(tc--) solve();
+    while(tc--){
+    	cout << "Case " << c << ": "; 
+    	solve();
+    	c++;
+    }
     
     return 0;
 }

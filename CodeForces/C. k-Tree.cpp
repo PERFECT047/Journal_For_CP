@@ -21,6 +21,8 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
+#define rep(i,x,n) for(ll i=x;i<n;i++)
+#define repb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -42,7 +44,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pii> vpii;
+typedef vector<pll> vpll;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -83,20 +85,47 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
-void PlacingKnights(ll n){
+
+
+void solve() {
+	
+    ll n, k, d;
     
+    cin >> n >> k >> d;
+    
+    ll dp[110][2] = {0};
+    dp[0][0] = 1;
+    dp[0][1] = 0;
+    
+    rep(i, 1, n + 1){
+    	rep(j, 0, k + 1){
+    		if(i - j < 0) break;
+    		
+    		if(j < d){
+    			dp[i][0] = (dp[i][0] + dp[i - j][0]) % MOD;
+    			dp[i][1] = (dp[i][1] + dp[i - j][1]) % MOD;
+    		}
+    		else{
+    			dp[i][1] = (dp[i][1] + dp[i - j][0]) % MOD;
+    			dp[i][1] = (dp[i][1] + dp[i - j][1]) % MOD;
+    		}
+    	}
+    }
+    
+    cout << dp[n][1] << endl;
+	
 }
  
  
 int main()
 {
     init_code();
+
+    ll tc = 1;
     
-    ll n;
-    cin>>n;
-    PlacingKnights(n);
+    // cin >> tc;
+	
+    while(tc--) solve();
     
     return 0;
 }

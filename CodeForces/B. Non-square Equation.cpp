@@ -4,7 +4,7 @@ using namespace std;
  
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
-// #pragma GCC optimization ("unroll-loops")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -83,38 +83,10 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve(ll tc = 1){
-	
-	while(tc--){
-				
-		ll n;
-		cin>>n;
-		bool f =1;
-		
-		for(int i = sqrt(n); i >= max((int)sqrt(n) - 10000, 1); i--){
-			
-			int cp = i;
-			int ts = 0;
-			
-			while(cp){
-				
-				ts += cp % 10;
-				cp = cp / 10;
-			}
-			if((i+ts) == n/i){
-				
-				f = 0;
-				cout<<i;
-				break;
-			}
-		}
-
-		if(f) cout<<"-1";
-		
-	}
-	
+ 
+ 
+void PlacingKnights(ll n){
+    
 }
  
  
@@ -122,10 +94,9 @@ int main()
 {
     init_code();
     
-    ll tc;
-    // cin>>tc;
-    tc=1;
-    solve(tc);
+    ll n;
+    cin>>n;
+    PlacingKnights(n);
     
     return 0;
 }

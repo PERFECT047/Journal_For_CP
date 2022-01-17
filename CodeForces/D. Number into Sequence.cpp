@@ -22,7 +22,7 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
 #define rep(i,x,n) for(ll i=x;i<n;i++)
-#define repb(i,n,x) for(ll i=n;i>=x;i--)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -87,27 +87,58 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+bool cmp(pll a, pll b){
+	return a.ff > b.ff;
+}
+
+
 void solve() {
 	
     ll n;
     cin >> n;
     
-    ll a[n] = {0};
+    vpll v;
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    ll p = 0;
+    
+	for(ll i = 2; i * i <= n; i++){
+		p = 0;
+		
+		if(n % i == 0){
+			while(n % i == 0){
+				p++;
+				n /= i;
+			}
+			v.pb({p, i});
+		}
+	}
+	
+	if(n > 1) v.pb({1, n});
+	    
+    sort(all(v), cmp);
+    
+    // rep(i, 0, v.size()) cout << v[i].ss << " " << v[i].ff << endl;
+    
+    
+    ll sz = v[0].ff;
+    vll sol(sz);
+    
+    rep(i, 0, v.size()){
+    	rep(j, sz - v[i].ff, sz){
+    		if(i == 0)sol[j] = v[i].ss;
+    		else sol[j] *= v[i].ss;
+    	}
     }
     
-    ll sol = 0;
-    ll x = 0;
+    cout << sz << endl;
     
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    rep(i, 0, sz) cout << sol[i] << " ";
+    
+    if(sz == 0){
+    	cout << 1 << endl << n << endl;
     }
     
-    cout << sol;
+    cout << endl;
 	
 }
  
@@ -118,7 +149,7 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
+    cin >> tc;
 	
     while(tc--) solve();
     

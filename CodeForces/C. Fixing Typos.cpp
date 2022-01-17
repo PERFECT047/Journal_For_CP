@@ -89,25 +89,44 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
+    string s;
+    cin >> s;
     
-    ll a[n] = {0};
+    vll arr;
+    arr.pb(1);
+    string a;
+    a = s[0];
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    ll id = 0;
+    
+    rep(i, 1, s.length()){
+    	if(s[i] == s[i - 1]){
+    		arr[id]++;
+    	}
+    	else{
+    		a += s[i];
+    		arr.pb(1);
+    		id++;
+    	}
     }
     
-    ll sol = 0;
-    ll x = 0;
+    if(arr[0] >= 3) arr[0] = 2;
     
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    rep(i, 1, arr.size()){
+    	if(arr[i] > 2) arr[i] = 2;
+    	if(arr[i] == 2 && arr[i - 1] == 2)arr[i] = 1;
     }
     
-    cout << sol;
+    string sol = "";
+    
+    rep(i, 0, arr.size()){
+    	while(arr[i]){
+    		sol += a[i];
+    		arr[i]--;
+    	}
+    }
+    
+    cout << sol << endl;
 	
 }
  

@@ -22,14 +22,14 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
 #define rep(i,x,n) for(ll i=x;i<n;i++)
-#define repb(i,n,x) for(ll i=n;i>=x;i--)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 typedef stringstream ss;
-typedef map<int, int> mii;
+typedef map<int, int> mii;      
 typedef map<ll, int> mli;
 typedef map<char, int> mci;
 typedef map<string, int> msi;
@@ -44,7 +44,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pll> vpll;
+typedef vector<pii> vpii;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -58,7 +58,7 @@ typedef vector<string>::iterator vsit;
  
 void init_code(){
     fastio();
-    #ifndef ONLINE_JUDGE
+    #ifndef SID
     #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
     #else
     #define debug(x)
@@ -88,27 +88,58 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 void solve() {
-	
-    ll n;
-    cin >> n;
     
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    ll num;
+
+    cin >> num;
+
+    ll arr[num + 10][2] = {0};
+    ll dp[num + 10][3] = {0};
+ 
+    rep(i, 1, num + 1)
+    {
+        ll t;
+
+        cin >> t;
+        
+        if(t == 0){
+            arr[i][0] = 0;
+            arr[i][1] = 0;
+        }
+        else if(t == 1){
+            arr[i][0] = 0;
+            arr[i][1] = 1;
+        }
+        else if(t == 2){
+            arr[i][0] = 1;
+            arr[i][1] = 0;
+        }
+        else{
+            arr[i][0] = 1;
+            arr[i][1] = 1;
+        }
     }
     
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    dp[1][0] = arr[1][0];
+    dp[1][1] = arr[1][1];
+
+    rep(i, 2, num + 1)
+    {
+        rep(j, 0, 2){
+            rep(k, 0, 2){
+                
+                if(k == j && arr[i][j] == arr[i-1][k] && arr[i][j]) continue;
+ 
+                dp[i][j] = max(dp[i][j],dp[i-1][k]+arr[i][j]);
+ 
+            }
+        }
+ 
     }
-    
-    cout << sol;
-	
+ 
+    cout << num - max(dp[num][0],dp[num][1]);
+
+
 }
  
  
@@ -119,7 +150,7 @@ int main()
     ll tc = 1;
     
     // cin >> tc;
-	
+    
     while(tc--) solve();
     
     return 0;

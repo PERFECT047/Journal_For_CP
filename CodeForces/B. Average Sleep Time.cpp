@@ -89,25 +89,30 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
+	cout.precision(20);
+	
+	ll n, k;
+    cin >> n >> k;
     
-    ll a[n] = {0};
+    ll a[n + 1] = {0}, p[n + 1] = {0};
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    rep(i, 1, n + 1){
+        cin >> a[i];
+        p[i] = p[i - 1] + a[i];
     }
     
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    long double sol = 0;
+    rep(r, k, n + 1){
+        ll l = r - k;
+        sol += ((p[r] - p[l] + 0.0) / (n - k + 1));
     }
     
-    cout << sol;
+    double f = (double)sol;
+    
+    printf("%0.10f", f);
+    // cout << sol << endl;
+    
+    return;
 	
 }
  

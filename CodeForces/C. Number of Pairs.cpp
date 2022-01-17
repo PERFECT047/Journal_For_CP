@@ -22,7 +22,7 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
 #define rep(i,x,n) for(ll i=x;i<n;i++)
-#define repb(i,n,x) for(ll i=n;i>=x;i--)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -44,7 +44,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pll> vpll;
+typedef vector<pii> vpii;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -89,25 +89,25 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
+    ll n, l, r;
+    cin >> n >> l >> r;
     
-    ll a[n] = {0};
+    ll arr[n] = {0};
+    rep(i, 0, n) cin >> arr[i];
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
+    sort(arr, arr + n);
     
     ll sol = 0;
-    ll x = 0;
     
     rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    	ll idxl = lower_bound(arr + i + 1, arr + n, l - arr[i]) - arr;
+    	ll idxr = upper_bound(arr + i + 1, arr + n, r - arr[i]) - arr;
+    	
+    	idxr--;
+    	sol += (idxr - idxl + 1);
     }
     
-    cout << sol;
+    cout << sol << endl;
 	
 }
  
@@ -118,7 +118,7 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
+    cin >> tc;
 	
     while(tc--) solve();
     

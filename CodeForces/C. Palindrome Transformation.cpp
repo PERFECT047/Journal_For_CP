@@ -89,25 +89,51 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
-    
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
+    ll n,pos;
+	cin >> n >> pos;
+	string str;
+	cin >> str;
+	ll ans = 0;
+	if(pos > n / 2)pos = n + 1 - pos;
+	if(n % 2 == 1)str.erase(str.begin() + n / 2),n--;
+	str = " " + str;
+	ll s = 1;
+	for(ll i = 1;i <= n / 2;++i)
+	{
+		if(str[i] == str[n+1-i])
+		{
+			s++;
+		}
+		else break;
+	}
+	ll e = n/2;
+	for(ll i = n/2; i >= 1; --i)
+	{
+		if(str[i] == str[n+1-i])
+		{
+			e--;
+		}
+		else break;
+	}
+	if(e < s)
+	{
+		cout << 0 << endl;
+		return;
+	}
+	for(ll i = s; i <= e; ++i)
+	{
+		ll x = abs(str[i]-str[n+1-i]);
+		if(x >= 13)ans += 26-x;
+		else ans += x;
+	}
+	if(abs(e-pos)>abs(pos-s))
+	{
+		ans += abs(pos-s)+e-s;
+		cout << ans << endl;
+		return; 
+	}
+	ans += abs(e-pos)+e-s;
+	cout << ans << endl;
 	
 }
  

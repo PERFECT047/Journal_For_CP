@@ -92,19 +92,22 @@ void solve() {
     ll n;
     cin >> n;
     
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
+    ll arr[n] = {0};
+    rep(i, 0, n)cin >> arr[i];
     
     ll sol = 0;
-    ll x = 0;
     
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    rep(i, 0, n){
+    	ll tsol = 1;
+    	rep(j, i + 1, n){
+    		if(arr[j] <= arr[j - 1]) tsol++;
+    		else break;
+    	}
+    	repb(j, i - 1, 0){
+    		if(arr[j] <= arr[j + 1]) tsol++;
+    		else break;
+    	}
+    	if(tsol > sol) sol = tsol;
     }
     
     cout << sol;

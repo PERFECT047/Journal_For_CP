@@ -22,14 +22,14 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
 #define rep(i,x,n) for(ll i=x;i<n;i++)
-#define repb(i,n,x) for(ll i=n;i>=x;i--)
+#define fb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 typedef stringstream ss;
-typedef map<int, int> mii;
+typedef map<int, int> mii;      
 typedef map<ll, int> mli;
 typedef map<char, int> mci;
 typedef map<string, int> msi;
@@ -44,7 +44,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pll> vpll;
+typedef vector<pii> vpii;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -58,7 +58,7 @@ typedef vector<string>::iterator vsit;
  
 void init_code(){
     fastio();
-    #ifndef ONLINE_JUDGE
+    #ifndef SID
     #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
     #else
     #define debug(x)
@@ -88,27 +88,37 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 void solve() {
-	
+    
     ll n;
+    
     cin >> n;
     
-    ll a[n] = {0};
+    ll sol = INT_MAX;
+
+    pll lmc = {INT_MAX, -1};
+    pll rmc = {INT_MAX, -1};
     
     rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+        
+        ll llim = INT_MAX, rlim = INT_MIN, c = 0, cur = 1e10;
+
+        cin >> llim >> rlim >> c;
+        
+        if (i == 0)cur = min(cur, sol);
+        
+        if(llim == min(llim, lmc.ff) && rlim == max((-1 * rmc.ff), rlim))cur = c;
+
+        if(lmc.ff == min(llim, lmc.ff) && -rmc.ff == max((-1 * rmc.ff), rlim)) cur = min(cur, sol);
+
+        if (make_pair(llim, c) < lmc) lmc = {llim, c};
+        
+        if (make_pair((-1 * rlim), c) < rmc) rmc = {(-1 * rlim), c};
+        
+        sol = min(cur, lmc.ss + rmc.ss);
+        
+        cout << sol << endl;
     }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
-	
+
 }
  
  
@@ -118,8 +128,8 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
-	
+    cin >> tc;
+    
     while(tc--) solve();
     
     return 0;

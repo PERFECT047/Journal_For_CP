@@ -87,27 +87,57 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+
+
+
 void solve() {
 	
-    ll n;
-    cin >> n;
+    string s;
+    cin >> s;
     
-    ll a[n] = {0};
+    ll a, b;
+    cin >> a >> b;
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    ll da[s.length()] = {0}, db[s.length()] = {0};
+    ll t = 0;
+    
+    rep(i, 0, s.length()){
+    	t = (t * 10) + (s[i] - '0');
+    	da[i] = t % a;
+    	t = da[i];
+    }
+    ll p = 1;
+    t = 0;
+    repb(i, s.length() - 1, 0){
+    	t = (((s[i] - '0') * p) + t) % b;
+    	db[i] = t;
+    	p *= 10;
+    	p = p % b;
+    }
+    ll id = -1;
+    rep(i, 0, s.length()){
+    	if(da[i] == 0 && db[i + 1] == 0){
+    		if(s[i + 1] == '0'){
+    			i++;
+    			while(s[i] == '0')i++;
+    			if(s[i] != '0')i--;
+    		}
+    		id = i;
+    		break;
+    	}
     }
     
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    if(id == -1 || id >= s.length() - 1){
+    	cout << "NO" << endl;
+    	return;
     }
     
-    cout << sol;
+    cout << "YES" << endl;
+    
+    rep(i, 0, s.length()){
+    	cout << s[i];
+    	if(i == id) cout << endl;
+    }
 	
 }
  

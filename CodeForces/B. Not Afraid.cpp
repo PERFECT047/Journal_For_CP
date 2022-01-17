@@ -89,25 +89,29 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
-    
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    int n,m;
+    cin >> n >> m;
+    vector<int> gr(m);
+    for(int i=0;i<m;i++){
+        int k;
+        cin >> k;
+        map<int, int> vv;
+        bool fl=false;
+        for(int y=0;y<k;y++){
+            int uu;
+            cin >> uu;
+            vv[uu]++;
+            if(vv.count(-uu)>0){
+                fl=true;
+            }
+            
+        }
+        if(!fl){
+            cout << "YES" << endl;
+            return;
+        }
     }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
+    cout << "NO" << endl;
 	
 }
  

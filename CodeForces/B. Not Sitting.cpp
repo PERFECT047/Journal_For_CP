@@ -89,25 +89,27 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
+    ll n, m;
+    cin >> n >> m;
     
-    ll a[n] = {0};
+    priority_queue<ll, vll, greater<int>> pq;
     
     rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+        rep(j, 0, m){
+        	
+            int d = max(i, n - 1 - i) + max(j, m - j - 1);
+            pq.push(d);
+        }
+    }
+
+    while(!pq.empty())
+    {
+        cout << pq.top() << " ";
+        // q.pop_front();
+        pq.pop();
     }
     
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
+    cout << endl;
 	
 }
  
@@ -118,7 +120,7 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
+    cin >> tc;
 	
     while(tc--) solve();
     

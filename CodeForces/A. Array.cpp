@@ -90,24 +90,39 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 void solve() {
 	
     ll n;
+    
     cin >> n;
     
-    ll a[n] = {0};
+    vll nn, pn;
+    ll z = 0;
     
     rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    	ll t;
+    	cin >> t;
+    	
+    	if(t > 0)pn.pb(t);
+    	else if(t < 0)nn.pb(t);
+    	else z++;
     }
     
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    cout << "1" << " " << nn[0] << endl;
+    if(nn.size() & 1){
+    	cout << pn.size() + nn .size() - 1 << " ";
+    	rep(i, 1, nn.size())cout << nn[i] << " ";
+    	rep(i, 0, pn.size())cout << pn[i] << " ";
+	    cout << endl;
+	    cout << z << " ";
+	    rep(i, 0, z)cout << "0" << " ";
     }
-    
-    cout << sol;
+    else{
+    	cout << pn.size() + nn .size() - 2 << " ";
+    	rep(i, 2, nn.size())cout << nn[i] << " ";
+    	rep(i, 0, pn.size())cout << pn[i] << " ";
+	    cout << endl;
+	    cout << z + 1 << " ";
+	    cout << "0" << " ";
+	    cout << nn[1];
+    }
 	
 }
  

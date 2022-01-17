@@ -92,22 +92,48 @@ void solve() {
     ll n;
     cin >> n;
     
-    ll a[n] = {0};
+    ll mat[n + 2][n + 2] = {0};
+    ll d1[(2 * n) + 10] = {0};
+    ll d2[(2 * n) + 10] = {0};
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    rep(i, 1, n + 1){
+        rep(j, 1, n + 1){
+            
+            cin >> mat[i][j];
+            d1[i - j + n] += mat[i][j];
+            d2[i + j] += mat[i][j];
+            
+        }
     }
     
-    ll sol = 0;
-    ll x = 0;
+    ll max1 = -1, max2 = -1;
+    ll maxi1 = 0, maxj1 = 0, maxi2 = 0, maxj2 = 0;
+    ll orgcol = 0;
+    ll col;
     
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    rep(i, 1, n + 1){
+        orgcol = 1-orgcol;
+        col = orgcol;
+        rep(j ,1, n + 1){
+        	
+            if(col == 1 && d1[i - j + n] + d2[i + j] - mat[i][j] > max1){
+                max1 = d1[i - j + n]+d2[i + j] - mat[i][j];
+                maxi1 = i;
+                maxj1 = j;
+            }
+            
+            if(col == 0 && d1[i - j + n] + d2[i + j] - mat[i][j] > max2){
+                max2 = d1[i - j + n] + d2[i + j] - mat[i][j];
+                maxi2 = i;
+                maxj2 = j;
+            }
+            
+            col = 1 - col;
+        }
     }
     
-    cout << sol;
+    cout << max1 + max2 << endl;
+    cout << maxi1 << " " << maxj1 << " " << maxi2 << " " << maxj2 << endl;
 	
 }
  

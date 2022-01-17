@@ -92,23 +92,24 @@ void solve() {
     ll n;
     cin >> n;
     
-    ll a[n] = {0};
+    ll r0[n], r1[n];
     
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    rep(i, 0, n) cin >> r0[i];
+    rep(i, 0, n) cin >> r1[i];
+    
+    pll dp[n][2];
+    
+    dp[0][0] = {r0[0], 0};
+    dp[0][1] = {r1[0], 0};
+    
+    rep(i, 1, n){
+    	dp[i][0] = {max(dp[i - 1][1].ff, dp[i - 1][1].ss) + r0[i], max(dp[i - 1][0].ff, dp[i - 1][0].ss)};
+    	dp[i][1] = {max(dp[i - 1][0].ff, dp[i - 1][0].ss) + r1[i], max(dp[i - 1][1].ff, dp[i - 1][1].ss)};
     }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
 	
+	cout << max(max(dp[n - 1][0].ff, dp[n - 1][0].ss), max(dp[n - 1][1].ff, dp[n - 1][1].ss)) << endl;
+	
+		
 }
  
  

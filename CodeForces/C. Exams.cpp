@@ -2,9 +2,9 @@
  
 using namespace std;
  
-#pragma GCC optimize("Ofast,unroll-loops")
-#pragma GCC target("avx,avx2,bmi,bmi2,lzcnt,popcnt,fma")
-
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimization ("unroll-loops")
  
  
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
@@ -21,6 +21,8 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
+#define rep(i,x,n) for(ll i=x;i<n;i++)
+#define repb(i,n,x) for(ll i=n;i>=x;i--)
  
  
 typedef long long ll;
@@ -42,7 +44,6 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pii> vpii;
 typedef vector<pll> vpll;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
@@ -84,38 +85,43 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
- 
-void solve(){
-			
-	ll n;
+
+
+void solve() {
 	
-	cin >> n;
+    ll n;
+    cin >> n;
+    vpll v(n);
+    
+    rep(i, 0, n) cin >> v[i].ff >> v[i].ss;
+    
+    map<ll, bool> m;
+    
+    sort(all(v));
+    ll l = 0;
+    
+    rep(i, 0, n){
+    	if(l <= min(v[i].ff, v[i].ss)){
+    		l = min(v[i].ff, v[i].ss);
+    	}
+    	else{
+    		l = max(v[i].ff, v[i].ss);
+    	}
+    }
+    
+    cout << l;
 	
-	vpll daya(n, {0, 0});
-	vpll dayb(n, {0, 0});
-	
-	for(ll i = 0; i < n; i++) cin >> daya[i].ff >> daya[i].ss;
-	
-	// for(ll i = 0; i < n; i++) dayb[i].ff = daya[i].ss, dayb[i].ss = days[i].ss;
-	
-	sort(daya.begin(), daya.end());
-	// sort(dayb.begin(), dayb.end());
-	
-	ll f = 1;
-	
-	for(auto& [a, b]:daya)f = b < f ? a : b;
-	
-	cout << f;
 }
  
  
 int main()
 {
     init_code();
-    
+
     ll tc = 1;
     
+    // cin >> tc;
+	
     while(tc--) solve();
     
     return 0;

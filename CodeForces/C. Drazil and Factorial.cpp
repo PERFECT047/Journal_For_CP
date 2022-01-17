@@ -88,26 +88,62 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 void solve() {
-	
+        
+    ll num[20] = {0};
+    ll ch[] = {2, 3, 5, 7};
+    vll sol;
+    
     ll n;
     cin >> n;
     
-    ll a[n] = {0};
+    string s;
+    cin >> s;
+    
+    rep(i, 0, s.length()) num[i] = s[i] - '0';
+    
+    ll p[4] = {0};
+    ll rp[4] = {0};
     
     rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
+    	ll t = num[i];
+    	for(ll j = 3; j >= 0; j--){
+    		
+    		//nearest factorial
+    		if(t >= ch[j]){
+    			p[j]++;
+    			
+    			ll rem = 1;
+    			rep(k, ch[j] + 1, t + 1) rem *= k;
+    			
+    			while(rem % 2 == 0){
+    				rp[0]++;
+    				rem = rem / 2;
+    			}
+    			
+    			while(rem % 3 == 0){
+    				rp[1]++;
+    				rem = rem / 3;
+    			}
+    			
+    			break;
+    		}
+    	}
     }
     
-    ll sol = 0;
-    ll x = 0;
+    p[0] += (rp[0] - rp[1]);
+    p[1] += (rp[1]);
     
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
+    // repb(i, 3, 0){
+    	// cout << ch[i] << "|" << p[i] << endl;
+    // }
+    // p[0] -= p[1];
+    
+    repb(i, 3, 0){
+    	rep(j, 0, p[i])cout << ch[i];
     }
+    // cout << endl;
     
-    cout << sol;
+    return;
 	
 }
  

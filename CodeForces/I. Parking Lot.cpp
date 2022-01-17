@@ -87,27 +87,29 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+ll fe(ll n, ll p){
+	ll sol = 1;
+	
+	while(p){
+		if(p & 1){
+			sol = sol * n;
+		}
+		p = p >> 1;
+		n = n * n;
+	}
+	
+	return sol;
+}
+
+
 void solve() {
 	
     ll n;
     cin >> n;
-    
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
+	
+	ll sol = 6 * fe(4, n - 2);
+	if(n > 3) sol += 9 * fe(4, n - 3) * (n - 3);
+	cout << sol << endl;
 	
 }
  

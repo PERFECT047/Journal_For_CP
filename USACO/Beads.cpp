@@ -1,3 +1,11 @@
+/* Use the slash-star style comments or the system won't see your
+   identification information */
+/*
+ID: siddhar108
+TASK: beads
+LANG: C++                 
+*/
+/* LANG can be C++11 or C++14 for those more recent releases */
 #include<bits/stdc++.h>
  
 using namespace std;
@@ -44,7 +52,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<char> vc;
 typedef vector<string> vs;
-typedef vector<pll> vpll;
+typedef vector<pii> vpii;
 typedef map<int, int>::iterator miit;
 typedef map<ll, ll>::iterator mllit;
 typedef map<char, int>::iterator mciit;
@@ -58,11 +66,6 @@ typedef vector<string>::iterator vsit;
  
 void init_code(){
     fastio();
-    #ifndef ONLINE_JUDGE
-    #define debug(x) cerr << #x <<" "; _print(x); cerr << nline;
-    #else
-    #define debug(x)
-    #endif 
 }
  
  
@@ -85,42 +88,39 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-void solve() {
-	
-    ll n;
-    cin >> n;
-    
-    ll a[n] = {0};
-    
-    rep(i, 0, n){
-    	cin >> a[i]; 
-    	if(i > 0) a[i] += a[i - 1];
-    }
-    
-    ll sol = 0;
-    ll x = 0;
-    
-    rep(i, 0, n - 1){
-    	if(a[i] * 3 == a[n - 1] * 2) sol += x;
-    	if(a[i] * 3 == a[n - 1]) x++;
-    }
-    
-    cout << sol;
-	
-}
  
  
 int main()
 {
     init_code();
 
-    ll tc = 1;
+    ofstream fout ("beads.out");
+    ifstream fin ("beads.in");
     
-    // cin >> tc;
-	
-    while(tc--) solve();
+    ll n, res = 0;
+    fin >> n;
+    
+    string s;
+    fin >> s;
+    s += s;
+    
+    rep(i, 0, n){
+    	
+    	char c = s[i];
+        ll current = 0;
+        ll j = i;
+        for (int state = c!='w'; state <= 2; state++) {
+            for (; j < n + i && (s[j] == c || s[j] == 'w'); j++) {
+                current++;
+            }
+            c = s[j];
+        }
+        res = max(res, current);
+
+    	
+    }
+    
+    fout << min(res, n) << endl;
     
     return 0;
 }
