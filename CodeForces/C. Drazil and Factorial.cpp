@@ -88,60 +88,44 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 void solve() {
-        
-    ll num[20] = {0};
-    ll ch[] = {2, 3, 5, 7};
-    vll sol;
+	
+    ll n, num;
+    cin >> n >> num;
+    vll s;
+    vector<vll> f(10);
     
-    ll n;
-    cin >> n;
+    f[0].pb(1);
+    f[1].pb(1);
+    f[2].pb(2);
+    f[3].pb(3);
+    f[4].pb(3);
+    f[4].pb(2);
+    f[4].pb(2);
+    f[5].pb(5);
+    f[6].pb(5);
+    f[6].pb(3);
+    f[7].pb(7);
+    f[8].pb(7);
+    f[8].pb(2);
+    f[8].pb(2);
+    f[8].pb(2);
+    f[9].pb(7);
+    f[9].pb(3);
+    f[9].pb(3);
+    f[9].pb(2);
     
-    string s;
-    cin >> s;
-    
-    rep(i, 0, s.length()) num[i] = s[i] - '0';
-    
-    ll p[4] = {0};
-    ll rp[4] = {0};
-    
-    rep(i, 0, n){
-    	ll t = num[i];
-    	for(ll j = 3; j >= 0; j--){
-    		
-    		//nearest factorial
-    		if(t >= ch[j]){
-    			p[j]++;
-    			
-    			ll rem = 1;
-    			rep(k, ch[j] + 1, t + 1) rem *= k;
-    			
-    			while(rem % 2 == 0){
-    				rp[0]++;
-    				rem = rem / 2;
-    			}
-    			
-    			while(rem % 3 == 0){
-    				rp[1]++;
-    				rem = rem / 3;
-    			}
-    			
-    			break;
-    		}
-    	}
+    while(num){
+    	ll t = num % 10;
+    	num /= 10;
+    	
+    	if(t == 1 || t == 0) continue;
+    	
+    	rep(i, 0, f[t].size()) s.pb(f[t][i]);
     }
     
-    p[0] += (rp[0] - rp[1]);
-    p[1] += (rp[1]);
+    sort(all(s), greater<int>());
     
-    // repb(i, 3, 0){
-    	// cout << ch[i] << "|" << p[i] << endl;
-    // }
-    // p[0] -= p[1];
-    
-    repb(i, 3, 0){
-    	rep(j, 0, p[i])cout << ch[i];
-    }
-    // cout << endl;
+    rep(i, 0, s.size()) cout << s[i];
     
     return;
 	

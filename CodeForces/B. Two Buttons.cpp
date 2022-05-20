@@ -89,83 +89,47 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
-    ll a[n], b[n];
-    rep(i, 0, n)cin >> a[i];
-    rep(i, 0, n)cin >> b[i];
-    ll res[n] = {0};
+    ll n, m;
+    cin >> n >> m;
     
-    unordered_map<ll, ll> mp;
-    vll v;
+    ll a[20010];
+    rep(i, 0, 20010){
+    	a[i] = INT_MAX;
+    }
     
-    rep(i, 0, n){
-    	if(a[i] != b[i]){
-    		v.pb(i);
-    	}
-    	if(a[i] == b[i]){
-    		if(mp.count(a[i]) == 0){
-	    		res[i] = a[i];
-	    		mp[a[i]]++;
-	    	}
-	    	else{
-	    		v.pb(i);
-	    	}
+    // a[n] = 0;
+    
+    repb(i, n, 1){
+    	a[i] = n - i;
+    }
+    rep(i, 1, n + 1){
+    	ll t = 2 * i;
+    	ll c = 1;
+    	while(t < 20010){
+    		a[t] = min(a[t], a[i] + c);
+    		//cout << t << " " << a[t] << endl;
+    		t = 2 * t;
+    		c++;
     	}
     }
-
-	ll sz = v.size();
-	
-	if(sz == 1){
-		rep(j, 1, n + 1){
-			if(mp.count(j) == 0){
-				res[v[0]] = j;
-				break;
-			}
-		}
-	}
-	
-	if(sz == 2){
-		ll res1[n], res2[n];
-		ll arr[2];
-		ll cnt = 0;
-		rep(i, 1, n + 1){
-			if(mp.count(i) == 0){
-				arr[cnt] = i;
-				cnt++;
-			}
-			if(cnt == 2) break;
-		}
-		
-		rep(i, 0, n){
-			res1[i] = res[i];
-			res2[i] = res[i];
-		}
-		res1[v[0]] = res2[v[1]] = arr[0];
-		res1[v[1]] = res2[v[0]] = arr[1];
-		
-		ll cnta1 = 0, cntb1 = 0;
-		ll cnta2 = 0, cntb2 = 0;
-				
-		rep(i, 0, n){
-			if(res1[i] != a[i])cnta1++;
-			if(res1[i] != b[i])cntb1++;
-			if(res2[i] != a[i])cnta2++;
-			if(res2[i] != a[i])cntb2++;
-		}
-		
-		if(cnta1 == 1 && cntb1 == 1){
-			rep(i, 0, n)cout << res1[i] << " ";
-			return;
-		}
-		if(cnta2 == 1 && cntb2 == 1){
-			rep(i, 0, n)cout << res2[i] << " ";
-			return;
-		}
-		
-	}
     
-    rep(i, 0, n)cout << res[i] << " ";
+    rep(i, 1, 20010){
+    	if(a[i] > 10000){
+    		ll t = i;
+    		while(a[t] == INT_MAX && t < 20010)t++;
+    		a[i] = a[t] + (t - i);
+    		ll p = 2 * i;
+    		ll c = 1;
+    		while(p < 20010){
+    			a[p] = min(a[p], a[i] + c);
+    			p = p * 2;
+    			c++;
+    		}
+    	}
+    }
+    
+    
+    cout << a[m] << endl;
 	
 }
  

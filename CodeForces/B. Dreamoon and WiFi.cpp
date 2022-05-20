@@ -87,86 +87,45 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+double ncr(ll n, ll r){
+	ll nu = 1, de = 1; 
+	rep(i, 1, n + 1)nu *= i;
+	rep(i, 1, (r + 1))de *= i;
+	rep(i, 1, (n + 1) - r)de *= i;
+	nu = nu / de;
+	double sol = (1.0 * nu);
+	return nu;
+}
+
+
 void solve() {
 	
-    ll n;
-    cin >> n;
-    ll a[n], b[n];
-    rep(i, 0, n)cin >> a[i];
-    rep(i, 0, n)cin >> b[i];
-    ll res[n] = {0};
+    string s1, s2;
+    cin >> s1 >> s2;
     
-    unordered_map<ll, ll> mp;
-    vll v;
+    double p = 1.0;
     
-    rep(i, 0, n){
-    	if(a[i] != b[i]){
-    		v.pb(i);
-    	}
-    	if(a[i] == b[i]){
-    		if(mp.count(a[i]) == 0){
-	    		res[i] = a[i];
-	    		mp[a[i]]++;
-	    	}
-	    	else{
-	    		v.pb(i);
-	    	}
-    	}
+    ll s1p = 0, s1n = 0, s2p = 0, s2n = 0, s2q = 0;
+    
+    rep(i, 0, s1.length()){
+    	if(s1[i] == '+')s1p++;
+    	else s1n++;
     }
-
-	ll sz = v.size();
-	
-	if(sz == 1){
-		rep(j, 1, n + 1){
-			if(mp.count(j) == 0){
-				res[v[0]] = j;
-				break;
-			}
-		}
-	}
-	
-	if(sz == 2){
-		ll res1[n], res2[n];
-		ll arr[2];
-		ll cnt = 0;
-		rep(i, 1, n + 1){
-			if(mp.count(i) == 0){
-				arr[cnt] = i;
-				cnt++;
-			}
-			if(cnt == 2) break;
-		}
-		
-		rep(i, 0, n){
-			res1[i] = res[i];
-			res2[i] = res[i];
-		}
-		res1[v[0]] = res2[v[1]] = arr[0];
-		res1[v[1]] = res2[v[0]] = arr[1];
-		
-		ll cnta1 = 0, cntb1 = 0;
-		ll cnta2 = 0, cntb2 = 0;
-				
-		rep(i, 0, n){
-			if(res1[i] != a[i])cnta1++;
-			if(res1[i] != b[i])cntb1++;
-			if(res2[i] != a[i])cnta2++;
-			if(res2[i] != a[i])cntb2++;
-		}
-		
-		if(cnta1 == 1 && cntb1 == 1){
-			rep(i, 0, n)cout << res1[i] << " ";
-			return;
-		}
-		if(cnta2 == 1 && cntb2 == 1){
-			rep(i, 0, n)cout << res2[i] << " ";
-			return;
-		}
-		
-	}
     
-    rep(i, 0, n)cout << res[i] << " ";
-	
+    rep(i, 0, s2.length()){
+    	if(s2[i] == '+')s2p++;
+    	else if(s2[i] == '-') s2n++;
+    	else s2q++;
+    }
+    
+    if(s2p + s2q < s1p || s2n + s2q < s1n){
+    	p = 0.0;
+    	printf("%0.9f", p);
+    	return;
+    }
+    
+    p = pow(0.5, s2q) * ncr(s2q, (s1p - s2p));
+	printf("%0.9f", p);
 }
  
  

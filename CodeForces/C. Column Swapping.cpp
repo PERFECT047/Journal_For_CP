@@ -87,98 +87,69 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
-void solve() {
-	
-    ll n;
-    cin >> n;
-    ll a[n], b[n];
-    rep(i, 0, n)cin >> a[i];
-    rep(i, 0, n)cin >> b[i];
-    ll res[n] = {0};
+void solve(){
+    ll n, m; 
+    cin >> n >> m;
     
-    unordered_map<ll, ll> mp;
-    vll v;
+    vector<vll> arr(n, vll(m));
+    rep(i, 0, n){
+        rep(j, 0, m) cin >> arr[i][j];
+    }
+    
+    bool fl = 1;
+    ll l = -1, r = -1;
     
     rep(i, 0, n){
-    	if(a[i] != b[i]){
-    		v.pb(i);
-    	}
-    	if(a[i] == b[i]){
-    		if(mp.count(a[i]) == 0){
-	    		res[i] = a[i];
-	    		mp[a[i]]++;
-	    	}
-	    	else{
-	    		v.pb(i);
-	    	}
-    	}
+        rep(j, 1, m){
+            if(arr[i][j] < arr[i][j - 1]){
+                fl = 0;
+                vll sa = arr[i];
+                sort(all(sa));
+                rep(j, 0, m){
+                    if(arr[i][j] != sa[j]){ 
+                        if(l == -1) l = j;
+                        else if(r == -1) r = j;
+                        else {
+                            cout << "-1 " << nline;
+                            return;
+                        }
+                    }
+                }
+            }
+            if(!fl) break;
+        }
+        if(!fl) break;
     }
-
-	ll sz = v.size();
-	
-	if(sz == 1){
-		rep(j, 1, n + 1){
-			if(mp.count(j) == 0){
-				res[v[0]] = j;
-				break;
-			}
-		}
-	}
-	
-	if(sz == 2){
-		ll res1[n], res2[n];
-		ll arr[2];
-		ll cnt = 0;
-		rep(i, 1, n + 1){
-			if(mp.count(i) == 0){
-				arr[cnt] = i;
-				cnt++;
-			}
-			if(cnt == 2) break;
-		}
-		
-		rep(i, 0, n){
-			res1[i] = res[i];
-			res2[i] = res[i];
-		}
-		res1[v[0]] = res2[v[1]] = arr[0];
-		res1[v[1]] = res2[v[0]] = arr[1];
-		
-		ll cnta1 = 0, cntb1 = 0;
-		ll cnta2 = 0, cntb2 = 0;
-				
-		rep(i, 0, n){
-			if(res1[i] != a[i])cnta1++;
-			if(res1[i] != b[i])cntb1++;
-			if(res2[i] != a[i])cnta2++;
-			if(res2[i] != a[i])cntb2++;
-		}
-		
-		if(cnta1 == 1 && cntb1 == 1){
-			rep(i, 0, n)cout << res1[i] << " ";
-			return;
-		}
-		if(cnta2 == 1 && cntb2 == 1){
-			rep(i, 0, n)cout << res2[i] << " ";
-			return;
-		}
-		
-	}
     
-    rep(i, 0, n)cout << res[i] << " ";
-	
+    if(fl){
+        cout << "1 1 " << nline;
+        return;
+    }
+    else if(l == -1 || r == -1){
+        cout << "-1 " << nline;
+        return;
+    }
+    
+    rep(i, 0, n){
+        swap(arr[i][l], arr[i][r]);
+    }
+    
+    rep(i, 0, n){
+        rep(j, 1, m){
+            if(arr[i][j] < arr[i][j - 1]){
+                cout << "-1 " << nline;
+                return;
+            }
+        }
+    }
+    cout << l + 1 << " ";
+    cout << r + 1 << " ";
+    cout << nline;
 }
- 
- 
-int main()
-{
-    init_code();
 
-    ll tc = 1;
-    
-    // cin >> tc;
-	
-    while(tc--) solve();
-    
+int main(){
+    int t=1;
+    cin>>t;
+    while(t--) solve();
     return 0;
 }

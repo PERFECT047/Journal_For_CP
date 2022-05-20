@@ -89,83 +89,79 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 void solve() {
 	
-    ll n;
-    cin >> n;
-    ll a[n], b[n];
-    rep(i, 0, n)cin >> a[i];
-    rep(i, 0, n)cin >> b[i];
-    ll res[n] = {0};
+    ll n, m;
+    cin >> n >> m;
     
-    unordered_map<ll, ll> mp;
-    vll v;
+    vector<vll> arr(n, vll(m, 0));
     
     rep(i, 0, n){
-    	if(a[i] != b[i]){
-    		v.pb(i);
-    	}
-    	if(a[i] == b[i]){
-    		if(mp.count(a[i]) == 0){
-	    		res[i] = a[i];
-	    		mp[a[i]]++;
-	    	}
-	    	else{
-	    		v.pb(i);
-	    	}
-    	}
+    	string s;
+    	cin >> s;
+    	rep(j, 0, m) arr[i][j] = s[j] - '0';
     }
-
-	ll sz = v.size();
-	
-	if(sz == 1){
-		rep(j, 1, n + 1){
-			if(mp.count(j) == 0){
-				res[v[0]] = j;
-				break;
-			}
-		}
-	}
-	
-	if(sz == 2){
-		ll res1[n], res2[n];
-		ll arr[2];
-		ll cnt = 0;
-		rep(i, 1, n + 1){
-			if(mp.count(i) == 0){
-				arr[cnt] = i;
-				cnt++;
-			}
-			if(cnt == 2) break;
-		}
-		
-		rep(i, 0, n){
-			res1[i] = res[i];
-			res2[i] = res[i];
-		}
-		res1[v[0]] = res2[v[1]] = arr[0];
-		res1[v[1]] = res2[v[0]] = arr[1];
-		
-		ll cnta1 = 0, cntb1 = 0;
-		ll cnta2 = 0, cntb2 = 0;
-				
-		rep(i, 0, n){
-			if(res1[i] != a[i])cnta1++;
-			if(res1[i] != b[i])cntb1++;
-			if(res2[i] != a[i])cnta2++;
-			if(res2[i] != a[i])cntb2++;
-		}
-		
-		if(cnta1 == 1 && cntb1 == 1){
-			rep(i, 0, n)cout << res1[i] << " ";
-			return;
-		}
-		if(cnta2 == 1 && cntb2 == 1){
-			rep(i, 0, n)cout << res2[i] << " ";
-			return;
-		}
-		
-	}
     
-    rep(i, 0, n)cout << res[i] << " ";
+    bool f = 1;
+    ll in = -1;
+    
+    rep(i, 0, n){
+    	rep(j, 0, m){
+    		if(arr[i][j] == 1){
+    			ll x = i, y = j;
+    			while(x < n && arr[x][j] == 1)x++;
+    			while(y < m && arr[i][y] == 1)y++;
+    			
+    			// ll ti, tj;
+    			
+    			rep(ti, i, x){
+    				rep(tj, j, y){
+    					if(arr[ti][tj] == 0){
+    						f = 0; 
+    						break;
+    					}
+    					arr[ti][tj] = in;
+    					
+    					if(ti < n - 1){
+    						if(arr[ti + 1][tj] > in && arr[ti + 1][tj] < 0){
+    							f = 0;
+    							break;
+    						}
+    					}
+    					if(ti > 0){
+    						if(arr[ti - 1][tj] > in && arr[ti - 1][tj] < 0){
+    							f = 0;
+    							break;
+    						}
+    					}
+    					if(tj < m - 1){
+    						if(arr[ti][tj + 1] > in && arr[ti][tj + 1] < 0){
+    							f = 0;
+    							break;
+    						}
+    					}
+    					if(tj > 0){
+    						if(arr[ti][tj - 1] > in && arr[ti][tj - 1] < 0){
+    							f = 0;
+    							break;
+    						}
+    					}
+    					
+    				}
+    			}
+    			in--;
+    		}
+    		
+    		if(!f) break;
+    	}
+    	if(!f) break;
+    }
+    
+    // rep(i, 0, n){
+    	// rep(j, 0, m) cout << arr[i][j];
+    	// cout << nline;
+    // }
+    
+    if(!f) cout << "NO" << nline;
+    else cout << "YES" << nline;
 	
 }
  
@@ -176,7 +172,7 @@ int main()
 
     ll tc = 1;
     
-    // cin >> tc;
+    cin >> tc;
 	
     while(tc--) solve();
     
